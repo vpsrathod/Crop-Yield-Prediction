@@ -1,0 +1,406 @@
+{% extends 'prediction/base.html' %}
+{% load static %}
+
+{% block title %}Prediction Results | CropYield AI{% endblock %}
+{% block nav_predict %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+    .result-card {
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    
+    .result-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .crop-banner {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+    
+    .crop-banner::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+    }
+    
+    .crop-name {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        color: white;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+    }
+    
+    .detail-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+    
+    .detail-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--light-color);
+        color: var(--primary-color);
+        border-radius: 50%;
+        margin-right: 15px;
+    }
+    
+    .animated-progress {
+        height: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+        background: #e9ecef;
+        overflow: hidden;
+    }
+    
+    .animated-progress-bar {
+        height: 100%;
+        border-radius: 5px;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        width: 0;
+        transition: width 1.5s ease;
+    }
+    
+    .info-tooltip {
+        cursor: help;
+    }
+    
+    .card-animate {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    
+    .card-animate.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .confetti {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1000;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    .pulse-animation {
+        animation: pulse 2s infinite;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Confetti Canvas -->
+<canvas id="confetti" class="confetti"></canvas>
+
+<!-- Header -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto text-center">
+                <h1 class="fw-bold">Your Crop Prediction Results</h1>
+                <p class="lead">Based on your soil parameters, here's what we recommend</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Main Result Card -->
+            <div class="card border-0 shadow result-card mb-4 card-animate" data-delay="100">
+                <div class="crop-banner" style="background-image: url('{% static 'images/crops/' %}{{ predicted_crop_name|lower }}.jpg'), url('{% static 'images/default-crop.jpg' %}');">
+                    <h2 class="crop-name">{{ predicted_crop_name }}</h2>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="card-title">Best Crop For Your Soil</h5>
+                            <p class="text-muted mb-4">This crop is the most suitable based on the soil parameters you provided.</p>
+                            
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Estimated Profit</h6>
+                                    <p class="mb-0 text-success fw-bold">{{ predicted_profit }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Crop Type</h6>
+                                    <p class="mb-0">{{ predicted_crop_type }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Time to Grow</h6>
+                                    <p class="mb-0">{{ predicted_time_to_grow }} days</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card bg-light border-0 h-100">
+                                <div class="card-body">
+                                    <h6 class="text-center mb-3">Compatibility Score</h6>
+                                    <div class="text-center display-4 fw-bold text-success mb-2 pulse-animation">94%</div>
+                                    <div class="animated-progress">
+                                        <div class="animated-progress-bar" data-width="94"></div>
+                                    </div>
+                                    <p class="text-center text-muted small mt-3">This crop is highly suitable for your soil conditions</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Crop Information Card -->
+            <div class="card border-0 shadow mb-4 card-animate" data-delay="200">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-3">About {{ predicted_crop_name }}</h5>
+                    <p>{{ predicted_crop_name }} is a popular crop that thrives in specific soil conditions. Here's what you need to know:</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h6 class="mb-3">Growing Requirements</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-transparent px-0">
+                                    <i class="fas fa-flask text-primary me-2"></i> 
+                                    <strong>Optimal pH:</strong> 6.0-7.0
+                                </li>
+                                <li class="list-group-item bg-transparent px-0">
+                                    <i class="fas fa-temperature-high text-danger me-2"></i> 
+                                    <strong>Temperature Range:</strong> 20-30°C
+                                </li>
+                                <li class="list-group-item bg-transparent px-0">
+                                    <i class="fas fa-tint text-info me-2"></i> 
+                                    <strong>Water Needs:</strong> Moderate
+                                </li>
+                                <li class="list-group-item bg-transparent px-0">
+                                    <i class="fas fa-sun text-warning me-2"></i> 
+                                    <strong>Sunlight:</strong> Full sun
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h6 class="mb-3">Nutrient Requirements</h6>
+                            <div class="mb-3">
+                                <label class="d-flex justify-content-between small">
+                                    <span>Nitrogen</span>
+                                    <span>High</span>
+                                </label>
+                                <div class="animated-progress">
+                                    <div class="animated-progress-bar" data-width="85"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="d-flex justify-content-between small">
+                                    <span>Phosphorus</span>
+                                    <span>Medium</span>
+                                </label>
+                                <div class="animated-progress">
+                                    <div class="animated-progress-bar" data-width="60"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="d-flex justify-content-between small">
+                                    <span>Potassium</span>
+                                    <span>Medium-High</span>
+                                </label>
+                                <div class="animated-progress">
+                                    <div class="animated-progress-bar" data-width="75"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Alternative Crops Card -->
+            <div class="card border-0 shadow mb-4 card-animate" data-delay="300">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">Alternative Crop Options</h5>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center">
+                                    <div class="rounded-circle bg-light mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+                                        <i class="fas fa-leaf fa-2x text-success"></i>
+                                    </div>
+                                    <h5 class="card-title">Alternative 1</h5>
+                                    <p class="text-muted mb-2">Compatibility: 82%</p>
+                                    <div class="animated-progress">
+                                        <div class="animated-progress-bar" data-width="82"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center">
+                                    <div class="rounded-circle bg-light mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+                                        <i class="fas fa-seedling fa-2x text-success"></i>
+                                    </div>
+                                    <h5 class="card-title">Alternative 2</h5>
+                                    <p class="text-muted mb-2">Compatibility: 76%</p>
+                                    <div class="animated-progress">
+                                        <div class="animated-progress-bar" data-width="76"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center">
+                                    <div class="rounded-circle bg-light mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+                                        <i class="fas fa-apple-alt fa-2x text-success"></i>
+                                    </div>
+                                    <h5 class="card-title">Alternative 3</h5>
+                                    <p class="text-muted mb-2">Compatibility: 68%</p>
+                                    <div class="animated-progress">
+                                        <div class="animated-progress-bar" data-width="68"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Actions Card -->
+            <div class="card border-0 shadow mb-4 card-animate" data-delay="400">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">What's Next?</h5>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <div class="bg-light rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-file-download fa-2x text-primary"></i>
+                                </div>
+                                <h5>Download Report</h5>
+                                <p class="text-muted mb-3">Get a detailed PDF report of this prediction</p>
+                                <a href="#" class="btn btn-outline-primary">Download PDF</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <div class="bg-light rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-sync-alt fa-2x text-success"></i>
+                                </div>
+                                <h5>Try Another Prediction</h5>
+                                <p class="text-muted mb-3">Enter different soil parameters</p>
+                                <a href="{% url 'predict' %}" class="btn btn-outline-success">New Prediction</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <div class="bg-light rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-book fa-2x text-info"></i>
+                                </div>
+                                <h5>Growing Guide</h5>
+                                <p class="text-muted mb-3">Learn how to grow {{ predicted_crop_name }}</p>
+                                <a href="#" class="btn btn-outline-info">View Guide</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize confetti
+        const confettiSettings = { target: 'confetti', max: 150, size: 1.5, animate: true, respawn: false };
+        const confetti = new ConfettiGenerator(confettiSettings);
+        confetti.render();
+        
+        // Stop confetti after 3 seconds
+        setTimeout(() => {
+            confetti.clear();
+        }, 3000);
+        
+        // Animate progress bars
+        const progressBars = document.querySelectorAll('.animated-progress-bar');
+        setTimeout(() => {
+            progressBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                bar.style.width = width + '%';
+            });
+        }, 300);
+        
+        // Animate cards
+        const animCards = document.querySelectorAll('.card-animate');
+        animCards.forEach((card, index) => {
+            const delay = card.getAttribute('data-delay') || (index * 100);
+            setTimeout(() => {
+                card.classList.add('show');
+            }, delay);
+        });
+    });
+</script>
+{% endblock %}

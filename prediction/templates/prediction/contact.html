@@ -1,0 +1,237 @@
+{% extends 'prediction/base.html' %}
+{% load static %}
+
+{% block title %}Contact Us | CropYield AI{% endblock %}
+{% block nav_contact %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+    .contact-icon {
+        width: 60px;
+        height: 60px;
+        background-color: var(--light-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+        color: var(--primary-color);
+        transition: all 0.3s ease;
+    }
+    
+    .contact-info:hover .contact-icon {
+        background-color: var(--primary-color);
+        color: white;
+        transform: scale(1.1);
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
+    }
+    
+    .map-container {
+        position: relative;
+        overflow: hidden;
+        padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        border-radius: 8px;
+    }
+    
+    .map-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+    
+    .send-message-btn {
+        transition: all 0.3s ease;
+    }
+    
+    .send-message-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto text-center">
+                <h1 class="fw-bold" data-aos="fade-up">Contact Us</h1>
+                <p class="lead" data-aos="fade-up" data-aos-delay="100">We'd love to hear from you! Get in touch with our team.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- Contact Form -->
+        <div class="col-lg-7" data-aos="fade-right">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <h3 class="card-title mb-4">Send Us a Message</h3>
+                    
+                    <form id="contactForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                    <label for="name"><i class="fas fa-user me-2"></i>Your Name</label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                    <label for="email"><i class="fas fa-envelope me-2"></i>Your Email</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="subject" placeholder="Subject">
+                            <label for="subject"><i class="fas fa-tag me-2"></i>Subject</label>
+                        </div>
+                        
+                        <div class="form-floating mb-4">
+                            <textarea class="form-control" id="message" placeholder="Your Message" style="height: 180px"></textarea>
+                            <label for="message"><i class="fas fa-comment me-2"></i>Your Message</label>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5 send-message-btn">
+                                <i class="fas fa-paper-plane me-2"></i>Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact Information -->
+        <div class="col-lg-5" data-aos="fade-left">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h3 class="card-title mb-4">Contact Information</h3>
+                    
+                    <div class="d-flex align-items-center contact-info mb-4">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt fa-lg"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Our Location</h5>
+                            <p class="mb-0 text-muted">10 Bhawani Campus Phase 1, Bhopal, India </p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center contact-info mb-4">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt fa-lg"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Phone Number</h5>
+                            <p class="mb-0 text-muted">+91 8962726513</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center contact-info mb-4">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope fa-lg"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Email Address</h5>
+                            <p class="mb-0 text-muted">vishnurp01234@gmail.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center contact-info">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock fa-lg"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Working Hours</h5>
+                            <p class="mb-0 text-muted">Monday - Friday: 9:00 AM - 6:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Map -->
+            <div class="card border-0 shadow-sm" data-aos="fade-up">
+                <div class="card-body p-4">
+                    <h3 class="card-title mb-3">Find Us On Map</h3>
+                    <div class="map-container">
+                        <iframe src="https://www.bing.com/maps?&ty=30&q=Bhopal%2C%20Madhya%20Pradesh&satid=id.sid%3A7843abc7-b7c1-2b4a-3376-24f0411fbc24&vdpid=7412806543231418369&mb=23.32863~77.261173~23.149597~77.57037&cardbg=%23F98745&tt=Bhopal%2C%20Bhopal%20District%2C%20Madhya%20Pradesh&tsts0=%2526ty%253D30%2526q%253DBhopal%25252C%252520Madhya%252520Pradesh%2526satid%253Did.sid%25253A7843abc7-b7c1-2b4a-3376-24f0411fbc24%2526vdpid%253D7412806543231418369%2526mb%253D23.32863~77.261173~23.149597~77.57037%2526cardbg%253D%252523F98745&tstt0=Bhopal%2C%20Bhopal%20District%2C%20Madhya%20Pradesh&cp=23.239251~77.31685&lvl=11.78517&pi=0&ftst=0&ftics=False&v=2&sV=2&form=S00027" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Social Media Connection -->
+    <div class="card border-0 shadow-sm mt-5" data-aos="fade-up">
+        <div class="card-body p-4 text-center">
+            <h3 class="card-title mb-4">Connect With Us On Social Media</h3>
+            <div class="d-flex justify-content-center gap-4">
+                <a href="#" class="btn btn-outline-primary btn-lg rounded-circle" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fab fa-facebook-f fa-lg"></i>
+                </a>
+                <a href="#" class="btn btn-outline-info btn-lg rounded-circle" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fab fa-twitter fa-lg"></i>
+                </a>
+                <a href="#" class="btn btn-outline-danger btn-lg rounded-circle" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fab fa-instagram fa-lg"></i>
+                </a>
+                <a href="#" class="btn btn-outline-success btn-lg rounded-circle" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fab fa-whatsapp fa-lg"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-body text-center p-5">
+                <div class="mb-4">
+                    <i class="fas fa-check-circle fa-5x text-success"></i>
+                </div>
+                <h3>Message Sent Successfully!</h3>
+                <p class="text-muted mb-4">Thank you for contacting us. Our team will get back to you soon.</p>
+                <button type="button" class="btn btn-primary px-4" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Form submission with success modal
+        const contactForm = document.getElementById('contactForm');
+        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // You would normally send the form data to the server here
+            // For demo purposes, we'll just show the success modal
+            setTimeout(() => {
+                successModal.show();
+                contactForm.reset();
+            }, 1000);
+        });
+    });
+</script>
+{% endblock %}

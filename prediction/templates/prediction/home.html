@@ -1,0 +1,206 @@
+{% extends 'prediction/base.html' %}
+{% load static %}
+
+{% block title %}Home | CropYield AI{% endblock %}
+{% block nav_home %}active{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section position-relative">
+    <div class="hero-image" style="background:linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url('{% static 'images/home.jpg' %}') no-repeat center center/cover; height: 80vh; display: flex; align-items: center;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 text-white" data-aos="fade-right">
+                    <h1 class="display-4 fw-bold">Optimize Your Farming Decisions</h1>
+                    <p class="lead my-4">Use advanced AI technology to predict the best crops for your land based on soil conditions and climate data.</p>
+                    <div class="d-flex gap-3">
+                        <a href="{% url 'predict' %}" class="btn btn-lg btn-light">Start Prediction</a>
+                        <a href="{% url 'about' %}" class="btn btn-lg btn-outline-light">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container py-4">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="fw-bold">Why Choose CropYield AI?</h2>
+            <p class="lead text-muted">Our sophisticated algorithms help you maximize your yield and profit</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background-color: var(--light-color);">
+                            <i class="fas fa-chart-line fa-2x text-success"></i>
+                        </div>
+                        <h5 class="card-title">Accurate Predictions</h5>
+                        <p class="card-text">Our model uses machine learning to accurately predict the most suitable crops based on your soil parameters.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background-color: var(--light-color);">
+                            <i class="fas fa-coins fa-2x text-success"></i>
+                        </div>
+                        <h5 class="card-title">Profit Estimation</h5>
+                        <p class="card-text">Get detailed profit estimates for recommended crops to make financially sound decisions.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background-color: var(--light-color);">
+                            <i class="fas fa-calendar-alt fa-2x text-success"></i>
+                        </div>
+                        <h5 class="card-title">Growth Timeline</h5>
+                        <p class="card-text">Know exactly how long it will take for your crops to grow and when you can expect to harvest.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5">
+    <div class="container py-4">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="fw-bold">How It Works</h2>
+            <p class="lead text-muted">Three simple steps to optimize your farming decisions</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-center mb-4">
+                    <div class="step-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--primary-color); color: white; font-weight: bold; font-size: 24px;">1</div>
+                    <h5>Enter Soil Parameters</h5>
+                    <p>Input your soil's pH, nitrogen, phosphorus, potassium levels, and temperature.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-center mb-4">
+                    <div class="step-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--primary-color); color: white; font-weight: bold; font-size: 24px;">2</div>
+                    <h5>Generate Prediction</h5>
+                    <p>Our AI model analyzes your data and identifies the most suitable crops.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="text-center mb-4">
+                    <div class="step-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--primary-color); color: white; font-weight: bold; font-size: 24px;">3</div>
+                    <h5>Review Results</h5>
+                    <p>Get detailed information about recommended crops, profit potential, and growth time.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4" data-aos="fade-up">
+            <a href="{% url 'predict' %}" class="btn btn-primary btn-lg">Try It Now</a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5 bg-light">
+    <div class="container py-4">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="fw-bold">What Farmers Say</h2>
+            <p class="lead text-muted">Success stories from farmers who use our prediction tool</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text">"CropYield AI helped me increase my farm's productivity by 30%. The crop recommendations were spot on for my soil conditions."</p>
+                        <div class="d-flex align-items-center mt-3">
+                            <div class="flex-shrink-0">
+                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">RS</div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">Rajesh Singh</h6>
+                                <small class="text-muted">Punjab, India</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text">"As a first-time farmer, this tool gave me confidence in my crop choices. The profit estimations were very close to what I actually earned."</p>
+                        <div class="d-flex align-items-center mt-3">
+                            <div class="flex-shrink-0">
+                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">AP</div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">Anita Patel</h6>
+                                <small class="text-muted">Gujarat, India</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                        </div>
+                        <p class="card-text">"The growth timeline feature helped me plan my planting and harvesting schedule perfectly. I've been recommending this to all farmers in my area."</p>
+                        <div class="d-flex align-items-center mt-3">
+                            <div class="flex-shrink-0">
+                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">MK</div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">Mohan Kumar</h6>
+                                <small class="text-muted">Tamil Nadu, India</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5" style="background-color: var(--primary-color); color: white;">
+    <div class="container py-4 text-center">
+        <h2 class="fw-bold mb-4" data-aos="fade-up">Ready to Optimize Your Crop Selection?</h2>
+        <p class="lead mb-4" data-aos="fade-up" data-aos-delay="100">Join thousands of farmers who have improved their yield and profits with CropYield AI.</p>
+        <a href="{% url 'predict' %}" class="btn btn-light btn-lg" data-aos="fade-up" data-aos-delay="200">Start Your Prediction Now</a>
+    </div>
+</section>
+{% endblock %}

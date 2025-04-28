@@ -1,0 +1,186 @@
+{% extends 'prediction/base.html' %}
+{% load static %}
+
+{% block title %}About | CropYield AI{% endblock %}
+{% block nav_about %}active{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto text-center">
+                <h1 class="fw-bold" data-aos="fade-up">About CropYield AI</h1>
+                <p class="lead" data-aos="fade-up" data-aos-delay="100">Understanding our mission and technology</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <!-- Our Mission -->
+    <div class="row mb-5 align-items-center">
+        <div class="col-lg-6" data-aos="fade-right">
+            <img src="{% static 'images/about1.jpg' %}" alt="Our Mission" class="img-fluid rounded shadow-sm">
+        </div>
+        <div class="col-lg-6" data-aos="fade-left">
+            <h2 class="mb-4">Our Mission</h2>
+            <p class="lead">Empowering farmers with data-driven agricultural insights</p>
+            <p>At CropYield AI, we are passionate about combining cutting-edge technology with agricultural science to help farmers make informed decisions. Our mission is to increase agricultural productivity, optimize resource utilization, and promote sustainable farming practices through accurate crop predictions.</p>
+            <p>We believe that by leveraging the power of artificial intelligence and machine learning, we can help address global food security challenges while improving the livelihoods of farmers.</p>
+        </div>
+    </div>
+    
+    <!-- Our Technology -->
+    <div class="row mb-5 align-items-center flex-lg-row-reverse">
+        <div class="col-lg-6" data-aos="fade-left">
+            <img src="{% static 'images/about2.jpg' %}" alt="Our Technology" class="img-fluid rounded shadow-sm">
+        </div>
+        <div class="col-lg-6" data-aos="fade-right">
+            <h2 class="mb-4">Our Technology</h2>
+            <p class="lead">Advanced AI algorithms designed specifically for agricultural applications</p>
+            <p>CropYield AI employs sophisticated machine learning models trained on extensive agricultural datasets. Our algorithms analyze soil composition, environmental factors, and historical crop performance to provide accurate predictions.</p>
+            <p>Key features of our technology include:</p>
+            <ul>
+                <li>Multi-parameter analysis of soil conditions</li>
+                <li>Climate and environmental factor integration</li>
+                <li>Crop-specific growth requirement matching</li>
+                <li>Profit and yield estimation based on market trends</li>
+                <li>Continuous learning from new agricultural data</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- How It Works -->
+    <div class="card border-0 shadow-sm mb-5" data-aos="fade-up">
+        <div class="card-body p-4">
+            <h2 class="card-title text-center mb-4">How Our Prediction Works</h2>
+            
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                            <span class="fw-bold text-primary fs-4">1</span>
+                        </div>
+                        <h5>Data Collection</h5>
+                        <p class="text-muted">You enter your soil parameters and environmental conditions</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                            <span class="fw-bold text-primary fs-4">2</span>
+                        </div>
+                        <h5>AI Analysis</h5>
+                        <p class="text-muted">Our algorithm analyzes your data against crop requirements</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                            <span class="fw-bold text-primary fs-4">3</span>
+                        </div>
+                        <h5>Matching</h5>
+                        <p class="text-muted">Crops are ranked by compatibility with your conditions</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                            <span class="fw-bold text-primary fs-4">4</span>
+                        </div>
+                        <h5>Results</h5>
+                        <p class="text-muted">You receive personalized crop recommendations with details</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Our Team -->
+    <h2 class="text-center mb-4" data-aos="fade-up">Project Led</h2>
+    <p class="text-center mb-5 col-lg-8 mx-auto" data-aos="fade-up">I'm passionate of agricultural scientists, data engineers, and machine learning experts dedicated to revolutionizing farming through technology.</p>
+    
+    <div class="d-flex justify-content-center">
+        <div class="row g-4 mb-5 justify-content-center">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle overflow-hidden mx-auto mb-3" style="width: 120px; height: 120px;">
+                            <img src="{% static 'images/about3.jpg' %}" alt="Project Lead" class="img-fluid">
+                        </div>
+                        <h5>Vishnu Pratap Singh Rajput</h5>
+                        <p class="text-muted">AI Specialist</p>
+                        <p class="small">I lead the AI development, creating innovative algorithms that power our prediction engine and continuously improve its accuracy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- FAQ Section -->
+    <div class="card border-0 shadow-sm mb-5" data-aos="fade-up">
+        <div class="card-body p-4">
+            <h2 class="card-title text-center mb-4">Frequently Asked Questions</h2>
+            
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item border-0 mb-3 shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            How accurate are the crop predictions?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Our prediction model has been trained on extensive agricultural datasets and has achieved an accuracy rate of over 92% in controlled tests. However, actual results may vary based on unique local conditions and unforeseen environmental factors.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item border-0 mb-3 shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Do I need to conduct a soil test before using CropYield AI?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            While not strictly necessary, having recent soil test results significantly improves the accuracy of our predictions. We recommend performing a soil test within the past 6-12 months for best results.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item border-0 mb-3 shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            Can CropYield AI predict yields for organic farming?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, our system can make predictions for both conventional and organic farming practices. For organic farming, we consider natural soil amendments and biological processes in our calculations to provide relevant recommendations.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item border-0 shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            How often should I use CropYield AI for predictions?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            We recommend using our tool before each planting season or when you're planning crop rotations. Additionally, if you've made significant changes to your soil (such as adding amendments) or if weather patterns have dramatically changed, it's a good idea to run a new prediction.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

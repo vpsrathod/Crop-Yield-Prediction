@@ -1,0 +1,322 @@
+{% extends 'prediction/base.html' %}
+{% load static %}
+
+{% block title %}Predict Crops | CropYield AI{% endblock %}
+{% block nav_predict %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-range::-webkit-slider-thumb {
+        background: var(--primary-color);
+    }
+    .form-range::-moz-range-thumb {
+        background: var(--primary-color);
+    }
+    .form-range::-ms-thumb {
+        background: var(--primary-color);
+    }
+    
+    .input-card {
+        transition: all 0.3s ease;
+    }
+    
+    .input-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .parameter-icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--light-color);
+        color: var(--primary-color);
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+    
+    .range-value {
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto text-center">
+                <h1 class="fw-bold" data-aos="fade-up">Crop Prediction Tool</h1>
+                <p class="lead" data-aos="fade-up" data-aos-delay="100">Enter your soil parameters to find the most suitable crops for your land</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="card border-0 shadow-sm" data-aos="fade-up">
+                <div class="card-body p-4">
+                    <h4 class="card-title text-center mb-4">Enter Your Soil Parameters</h4>
+                    
+                    <form method="post" id="predictionForm">
+                        {% csrf_token %}
+                        
+                        <div class="row g-4">
+                            <!-- pH -->
+                            <div class="col-md-6">
+                                <div class="input-card card border-0 shadow-sm h-100">
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <div class="parameter-icon mx-auto">
+                                                <i class="fas fa-flask fa-lg"></i>
+                                            </div>
+                                            <h5 class="mb-3">Soil pH</h5>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="pHRange" class="form-label d-flex justify-content-between">
+                                                <span>pH Level</span>
+                                                <span class="range-value" id="pHValue">7.0</span>
+                                            </label>
+                                            <input type="range" class="form-range" min="0" max="14" step="0.1" id="pHRange" value="7.0">
+                                            <input type="hidden" id="pH" name="pH" value="7.0">
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <small class="text-muted">Acidic (0)</small>
+                                                <small class="text-muted">Neutral (7)</small>
+                                                <small class="text-muted">Alkaline (14)</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="text-muted small">
+                                            <i class="fas fa-info-circle me-1"></i> 
+                                            Different crops thrive in different pH conditions. Most crops prefer slightly acidic to neutral (6.0-7.0) soil.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Nitrogen -->
+                            <div class="col-md-6">
+                                <div class="input-card card border-0 shadow-sm h-100">
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <div class="parameter-icon mx-auto">
+                                                <i class="fas fa-leaf fa-lg"></i>
+                                            </div>
+                                            <h5 class="mb-3">Nitrogen (N)</h5>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="nitrogenRange" class="form-label d-flex justify-content-between">
+                                                <span>Nitrogen Level (mg/kg)</span>
+                                                <span class="range-value" id="nitrogenValue">50</span>
+                                            </label>
+                                            <input type="range" class="form-range" min="0" max="200" step="1" id="nitrogenRange" value="50">
+                                            <input type="hidden" id="Nitrogen" name="Nitrogen" value="50">
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <small class="text-muted">Low (0)</small>
+                                                <small class="text-muted">Medium (100)</small>
+                                                <small class="text-muted">High (200)</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="text-muted small">
+                                            <i class="fas fa-info-circle me-1"></i> 
+                                            Nitrogen is essential for leaf growth and the green color in plants.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Phosphorus -->
+                            <div class="col-md-6">
+                                <div class="input-card card border-0 shadow-sm h-100">
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <div class="parameter-icon mx-auto">
+                                                <i class="fas fa-seedling fa-lg"></i>
+                                            </div>
+                                            <h5 class="mb-3">Phosphorus (P)</h5>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="phosphorusRange" class="form-label d-flex justify-content-between">
+                                                <span>Phosphorus Level (mg/kg)</span>
+                                                <span class="range-value" id="phosphorusValue">50</span>
+                                            </label>
+                                            <input type="range" class="form-range" min="0" max="200" step="1" id="phosphorusRange" value="50">
+                                            <input type="hidden" id="Phosphorus" name="Phosphorus" value="50">
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <small class="text-muted">Low (0)</small>
+                                                <small class="text-muted">Medium (100)</small>
+                                                <small class="text-muted">High (200)</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="text-muted small">
+                                            <i class="fas fa-info-circle me-1"></i> 
+                                            Phosphorus promotes root development and flowering.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Potassium -->
+                            <div class="col-md-6">
+                                <div class="input-card card border-0 shadow-sm h-100">
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <div class="parameter-icon mx-auto">
+                                                <i class="fas fa-apple-alt fa-lg"></i>
+                                            </div>
+                                            <h5 class="mb-3">Potassium (K)</h5>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="potassiumRange" class="form-label d-flex justify-content-between">
+                                                <span>Potassium Level (mg/kg)</span>
+                                                <span class="range-value" id="potassiumValue">50</span>
+                                            </label>
+                                            <input type="range" class="form-range" min="0" max="200" step="1" id="potassiumRange" value="50">
+                                            <input type="hidden" id="Potassium" name="Potassium" value="50">
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <small class="text-muted">Low (0)</small>
+                                                <small class="text-muted">Medium (100)</small>
+                                                <small class="text-muted">High (200)</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="text-muted small">
+                                            <i class="fas fa-info-circle me-1"></i> 
+                                            Potassium improves overall plant health and fruit quality.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Temperature -->
+                            <div class="col-md-6 mx-auto">
+                                <div class="input-card card border-0 shadow-sm h-100">
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <div class="parameter-icon mx-auto">
+                                                <i class="fas fa-temperature-high fa-lg"></i>
+                                            </div>
+                                            <h5 class="mb-3">Temperature</h5>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="temperatureRange" class="form-label d-flex justify-content-between">
+                                                <span>Temperature (°C)</span>
+                                                <span class="range-value" id="temperatureValue">25</span>
+                                              </label>
+                                              <input type="range" class="form-range" min="0" max="50" step="0.5" id="temperatureRange" value="25">
+                                              <input type="hidden" id="Temperature" name="Temperature" value="25">
+                                              <div class="d-flex justify-content-between mt-1">
+                                                  <small class="text-muted">Cold (0°C)</small>
+                                                  <small class="text-muted">Moderate (25°C)</small>
+                                                  <small class="text-muted">Hot (50°C)</small>
+                                              </div>
+                                          </div>
+                                          
+                                          <div class="text-muted small">
+                                              <i class="fas fa-info-circle me-1"></i> 
+                                              Temperature is crucial for germination and growth rates. Different crops thrive in different temperature ranges.
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <div class="text-center mt-5">
+                              <button type="submit" class="btn btn-primary btn-lg px-5" id="predictButton">
+                                  <i class="fas fa-magic me-2"></i>Predict Suitable Crops
+                              </button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+              
+              <!-- Tips Card -->
+              <div class="card border-0 shadow-sm mt-4" data-aos="fade-up">
+                  <div class="card-body p-4">
+                      <h5 class="card-title mb-3"><i class="fas fa-lightbulb text-warning me-2"></i>Tips for Accurate Results</h5>
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item bg-transparent border-bottom">Use recent soil test results for the most accurate predictions</li>
+                          <li class="list-group-item bg-transparent border-bottom">Consider the average temperature during the growing season</li>
+                          <li class="list-group-item bg-transparent border-bottom">Different areas of your farm may have different soil compositions</li>
+                          <li class="list-group-item bg-transparent">Our predictions work best when all parameters are accurately provided</li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  <!-- Loading Modal -->
+  <div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-body text-center p-5">
+                  <div class="spinner-border text-success mb-4" role="status" style="width: 3rem; height: 3rem;">
+                      <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <h5>Analyzing your soil parameters...</h5>
+                  <p class="text-muted mb-0">Our AI is finding the best crops for your land. This may take a few moments.</p>
+              </div>
+          </div>
+      </div>
+  </div>
+  {% endblock %}
+  
+  {% block extra_js %}
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          // Handle sliders
+          const sliders = [
+              { range: 'pHRange', value: 'pHValue', input: 'pH', suffix: '' },
+              { range: 'nitrogenRange', value: 'nitrogenValue', input: 'Nitrogen', suffix: '' },
+              { range: 'phosphorusRange', value: 'phosphorusValue', input: 'Phosphorus', suffix: '' },
+              { range: 'potassiumRange', value: 'potassiumValue', input: 'Potassium', suffix: '' },
+              { range: 'temperatureRange', value: 'temperatureValue', input: 'Temperature', suffix: '°C' }
+          ];
+          
+          sliders.forEach(slider => {
+              const rangeInput = document.getElementById(slider.range);
+              const valueDisplay = document.getElementById(slider.value);
+              const hiddenInput = document.getElementById(slider.input);
+              
+              rangeInput.addEventListener('input', function() {
+                  valueDisplay.textContent = this.value + slider.suffix;
+                  hiddenInput.value = this.value;
+              });
+          });
+          
+          // Form submission with loading animation
+          const form = document.getElementById('predictionForm');
+          const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+          
+          form.addEventListener('submit', function() {
+              loadingModal.show();
+          });
+          
+          // Add animation on hover for input cards
+          const inputCards = document.querySelectorAll('.input-card');
+          inputCards.forEach(card => {
+              card.addEventListener('mouseenter', function() {
+                  this.classList.add('shadow');
+              });
+              
+              card.addEventListener('mouseleave', function() {
+                  this.classList.remove('shadow');
+              });
+          });
+      });
+  </script>
+  {% endblock %}
