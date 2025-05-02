@@ -136,7 +136,7 @@ STATIC_URL = 'static/'
 
 # <-- Add this line
 
-# STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 # renser change
