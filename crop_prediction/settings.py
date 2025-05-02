@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,14 +21,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-q0lf2xeadup)g0kibo_-e*6(6ur(z3a6i$m2setnzstt^ov3*i'
+SECRET_KEY = os.environ.get('SECRET_KEY','django-insecure-q0lf2xeadup)g0kibo_-e*6(6ur(z3a6i$m2setnzstt^ov3*i')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# change DEBUG = True to 
+DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = ['localhost','.vercel.app','.now.sh','127.0.0.1']
 
-# ALLOWED_HOSTS = ['localhost','.vercel.app','.now.sh']
+ALLOWED_HOSTS = []
+# added for render 
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,6 +47,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # added first one
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -80,6 +88,14 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Use Postgres on Render
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES['default'] = dj_database_url.config(
+        default=DATABASE_URL,
+        conn_max_age=600
+    )
 
 
 # Password validation
@@ -125,6 +141,8 @@ STATIC_URL = 'static/'
 # ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+# renser change
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # ....
 
 # Default primary key field type

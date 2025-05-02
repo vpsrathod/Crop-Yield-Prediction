@@ -15,5 +15,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crop_prediction.settings')
 
 application = get_wsgi_application()
 
-# Add this for Vercel
-app = application
+
