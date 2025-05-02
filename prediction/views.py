@@ -1,17 +1,22 @@
 import pickle
+import os
 from django.shortcuts import render
 
+# Use relative paths for model files
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model_dir = os.path.join(BASE_DIR, "model_files")
+
 # Load models from pickle files//D:/Vishnu/Projects/crop prediction/crop_prediction/crop_prediction/prediction\model_files\crop_name_model.pkl
-with open("D:/Vishnu/Projects/crop prediction/crop_prediction/crop_prediction/prediction/model_files/profit_model.pkl", "rb") as f:
+with open(os.path.join(model_dir, "profit_model.pkl"), "rb") as f:
     profit_model = pickle.load(f)
 
-with open("D:/Vishnu/Projects/crop prediction/crop_prediction/crop_prediction/prediction/model_files/crop_name_model.pkl", "rb") as f:
+with open(os.path.join(model_dir, "crop_name_model.pkl"), "rb") as f:
     crop_name_model = pickle.load(f)
 
-with open("D:/Vishnu/Projects/crop prediction/crop_prediction/crop_prediction/prediction/model_files/crop_type_model.pkl", "rb") as f:
+with open(os.path.join(model_dir, "crop_type_model.pkl"), "rb") as f:
     crop_type_model = pickle.load(f)
 
-with open("D:/Vishnu/Projects/crop prediction/crop_prediction/crop_prediction/prediction/model_files/time_to_grow_model.pkl", "rb") as f:
+with open(os.path.join(model_dir, "time_to_grow_model.pkl"), "rb") as f:
     time_to_grow_model = pickle.load(f)
 
 
